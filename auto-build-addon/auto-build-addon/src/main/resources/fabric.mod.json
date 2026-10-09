@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "auto-build-addon",
+  "version": "${version}",
+  "name": "Auto Build",
+  "description": "Meteor Client addon: builds litematic/schem/nbt schematics with exact block states, sneaking, water/lava and temporary support blocks.",
+  "authors": ["You"],
+  "license": "GPL-3.0",
+  "environment": "client",
+  "entrypoints": {
+    "meteor": [
+      "com.example.addon.AutoBuildAddon"
+    ]
+  },
+  "depends": {
+    "java": ">=21",
+    "minecraft": "${minecraft_version}",
+    "meteor-client": "*"
+  }
+}
