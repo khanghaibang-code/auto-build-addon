@@ -1,4 +1,4 @@
-name: Build jar
+name: "Build jar"
 
 'on':
 push:
