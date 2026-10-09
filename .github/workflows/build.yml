@@ -7,35 +7,41 @@ workflow_dispatch:
 jobs:
 build:
 runs-on: ubuntu-latest
-defaults:
-run:
-working-directory: auto-build-addon/auto-build-addon
 
 ```
 steps:
-  - uses: actions/checkout@v4
+  - name: Checkout
+    uses: actions/checkout@v4
 
-  - uses: actions/setup-java@v4
+  - name: Setup Java
+    uses: actions/setup-java@v4
     with:
       distribution: temurin
-      java-version: 21
+      java-version: "21"
 
-  - uses: gradle/actions/setup-gradle@v4
+  - name: Setup Gradle
+    uses: gradle/actions/setup-gradle@v4
     with:
-      gradle-version: 8.14.3
+      gradle-version: "8.14.3"
 
-  - name: Update Fabric Loom version
+  - name: Show files
+    run: |
+      pwd
+      ls -la
+      find . -maxdepth 4 -name build.gradle -o -name build.gradle.kts
+
+  - name: Build addon
+    working-directory: auto-build-addon/auto-build-addon
     run: |
       sed -i 's/1\.11\.8/1.14.10/g; s/1\.11-SNAPSHOT/1.14.10/g' build.gradle
-      cat build.gradle
+      gradle build --no-daemon
 
-  - name: Build
-    run: gradle build --no-daemon
-
-  - uses: actions/upload-artifact@v4
+  - name: Upload JAR
+    uses: actions/upload-artifact@v4
     with:
       name: auto-build-addon
       path: auto-build-addon/auto-build-addon/build/libs/*.jar
       if-no-files-found: error
 ```
+
 
